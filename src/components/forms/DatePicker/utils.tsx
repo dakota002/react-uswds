@@ -460,6 +460,7 @@ export const formatDate = (
 
 export const isDateInvalid = (
   dateString: string,
+  dateFormat: DateFormat,
   minDate: Date,
   maxDate?: Date
 ): boolean => {
@@ -468,13 +469,22 @@ export const isDateInvalid = (
   if (dateString) {
     isInvalid = true
 
-    const dateStringParts = dateString.split('/')
-    const [month, day, year] = dateStringParts.map((str) => {
+    const dateStringParts = dateString.split(
+      dateFormat === DEFAULT_EXTERNAL_DATE_FORMAT ? '/' : '-'
+    )
+    const dateParts = dateStringParts.map((str) => {
       let value
       const parsed = parseInt(str, 10)
       if (!Number.isNaN(parsed)) value = parsed
       return value
     })
+
+    let month, day, year
+    if (dateFormat === DEFAULT_EXTERNAL_DATE_FORMAT) {
+      ;[month, day, year] = dateParts
+    } else {
+      ;[year, month, day] = dateParts
+    }
 
     if (month && day && year != null) {
       const checkDate = setDate(year, month - 1, day)

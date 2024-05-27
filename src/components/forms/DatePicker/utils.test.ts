@@ -84,30 +84,64 @@ describe('isDateInvalid', () => {
   it('returns false if the date is within the min & max', () => {
     const testMin = new Date('May 1, 1988')
     const testMax = new Date('June 1, 1988')
-    expect(isDateInvalid('05/16/1988', testMin, testMax)).toEqual(false)
+    expect(
+      isDateInvalid(
+        '05/16/1988',
+        DEFAULT_EXTERNAL_DATE_FORMAT,
+        testMin,
+        testMax
+      )
+    ).toEqual(false)
   })
 
   it('returns true if the date is not within the min & max', () => {
     const testMin = new Date('May 1, 1988')
     const testMax = new Date('June 1, 1988')
-    expect(isDateInvalid('08/16/1988', testMin, testMax)).toEqual(true)
+    expect(
+      isDateInvalid(
+        '08/16/1988',
+        DEFAULT_EXTERNAL_DATE_FORMAT,
+        testMin,
+        testMax
+      )
+    ).toEqual(true)
   })
 
   it('returns true if the date is not valid', () => {
     const testMin = new Date('May 1, 1988')
     const testMax = new Date('June 1, 1988')
-    expect(isDateInvalid('not a date', testMin, testMax)).toEqual(true)
+    expect(
+      isDateInvalid(
+        'not a date',
+        DEFAULT_EXTERNAL_DATE_FORMAT,
+        testMin,
+        testMax
+      )
+    ).toEqual(true)
   })
 
   describe('with no max date', () => {
     it('returns false if the date is after the min', () => {
       const testMin = new Date('May 1, 1988')
-      expect(isDateInvalid('05/16/1988', testMin)).toEqual(false)
+      expect(
+        isDateInvalid('05/16/1988', DEFAULT_EXTERNAL_DATE_FORMAT, testMin)
+      ).toEqual(false)
     })
 
     it('returns true if the date is not after the min', () => {
       const testMin = new Date('May 1, 1988')
-      expect(isDateInvalid('02/16/1988', testMin)).toEqual(true)
+      expect(
+        isDateInvalid('02/16/1988', DEFAULT_EXTERNAL_DATE_FORMAT, testMin)
+      ).toEqual(true)
+    })
+  })
+
+  describe('with YYYY-MM-DD date format', () => {
+    it('returns true if the date is not after the min', () => {
+      const testMin = new Date('May 1, 1988')
+      expect(
+        isDateInvalid('1988-16-02', INTERNAL_DATE_FORMAT, testMin)
+      ).toEqual(true)
     })
   })
 })
