@@ -493,7 +493,8 @@ export const isDateInvalid = (
         checkDate.getMonth() === month - 1 &&
         checkDate.getDate() === day &&
         checkDate.getFullYear() === year &&
-        dateStringParts[2].length === 4 &&
+        dateStringParts[dateFormat === DEFAULT_EXTERNAL_DATE_FORMAT ? 2 : 0]
+          .length === 4 &&
         isDateWithinMinAndMax(checkDate, minDate, maxDate)
       ) {
         isInvalid = false

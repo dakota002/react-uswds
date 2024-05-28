@@ -143,6 +143,13 @@ describe('isDateInvalid', () => {
         isDateInvalid('1988-16-02', INTERNAL_DATE_FORMAT, testMin)
       ).toEqual(true)
     })
+
+    it('returns false if the date is valid', () => {
+      const testMin = new Date('May 1, 1988')
+      expect(
+        isDateInvalid('2023-02-16', INTERNAL_DATE_FORMAT, testMin)
+      ).toEqual(false)
+    })
   })
 })
 
